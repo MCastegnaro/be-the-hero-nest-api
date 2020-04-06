@@ -13,10 +13,6 @@ export class OngsService {
         @InjectRepository(Ong) private ongsRepository: Repository<Ong>,
     ) { }
 
-    async findOne(id: string) {
-        return await this.ongsRepository.findOne(id);
-    }
-
     async findAll(): Promise<Ong[]> {
         return await this.ongsRepository.find();
     }

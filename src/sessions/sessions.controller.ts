@@ -1,24 +1,16 @@
-import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { CreateSessionDTO } from './dtos/createSession.dto';
-import { Session } from './sessions';
-import { OngsService } from 'src/ongs/ongs.service';
-import { Response } from 'express';
+import { SessionsService } from './sessions.service';
 
 @Controller('sessions')
 export class SessionsController {
 
-    constructor(private readonly ongsService: OngsService) { }
+    constructor(
+        private readonly sessionsService: SessionsService
+    ) { }
 
     @Post()
-    async create(@Body() createSessionDto: CreateSessionDTO, @Res() response: Response) {
-        const session = new Session();
-        session.id = createSessionDto.id;
-
-        const ong = await this.ongsService.findOne(session.id);
-
-        if (!ong) {
-            return response.status(HttpStatus.BAD_REQUEST).json({ error: 'No ong found with this id' })
-        }
-        return response.json(ong);
+    login(@Body() createSessionDto: CreateSessionDTO) {
+        return this.sessionsService.login(createSessionDto);
     }
 }

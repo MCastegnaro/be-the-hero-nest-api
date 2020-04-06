@@ -3,13 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SessionsController } from './sessions.controller';
 import { Ong } from '../ongs/ong.entity';
-import { OngsService } from 'src/ongs/ongs.service';
+import { SessionsService } from './sessions.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Ong])
   ],
   controllers: [SessionsController],
-  providers: [OngsService]
+  providers: [SessionsService]
 })
 export class SessionsModule { }
