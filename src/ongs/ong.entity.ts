@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { IsString, IsNotEmpty } from "class-validator";
+import { Incident } from "src/incidents/incident.entity";
 
-@Entity()
+@Entity('ong')
 export class Ong {
 
     @PrimaryColumn()
@@ -31,4 +32,9 @@ export class Ong {
     @IsString()
     @IsNotEmpty()
     uf: string;
+
+    @OneToMany(type => Incident, incident => incident.ong, {
+        cascade: true
+    })
+    incidents: Incident[];
 }

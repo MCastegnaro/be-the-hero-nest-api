@@ -6,7 +6,7 @@ const config: ConnectionOptions = {
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: false,
 
-    migrationsRun: true,
+    migrationsRun: false,
     logging: true,
     logger: 'file',
 
