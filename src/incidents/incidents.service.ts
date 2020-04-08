@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { Incident } from './incident.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateIncidentDTO } from './dtos/createIncident.dto';
 import { OngsService } from 'src/ongs/ongs.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Injectable()
 export class IncidentsService {
@@ -37,5 +37,24 @@ export class IncidentsService {
         incident.ong = ong;
 
         return await this.incidentsRepository.save(incident);
+    }
+
+    async delete(request: Request) {
+        const id = request.params.id;
+        const ongId = request.headers.authorization;
+
+        const incident = await this.incidentsRepository.findOne({
+            where: { id: id },
+            relations: ['ong']
+        });
+
+        if (incident.ong.id != ongId) {
+            throw new HttpException(
+                'Operation not permitted',
+                HttpStatus.UNAUTHORIZED
+            )
+        }
+
+        return await this.incidentsRepository.delete(id);
     }
 }
