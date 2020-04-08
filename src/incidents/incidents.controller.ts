@@ -1,7 +1,7 @@
-import { Controller, Post, Body, Headers, Get, Query, Res } from '@nestjs/common';
+import { Controller, Post, Body, Headers, Get, Query, Res, Delete, Req } from '@nestjs/common';
 import { CreateIncidentDTO } from './dtos/createIncident.dto';
 import { IncidentsService } from './incidents.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('incidents')
 export class IncidentsController {
@@ -21,5 +21,9 @@ export class IncidentsController {
         return this.incidentsService.create(createIncidentDto, ongId);
     }
 
+    @Delete(':id')
+    delete(@Req() request: Request) {
+        return this.incidentsService.delete(request);
+    }
 
 }
